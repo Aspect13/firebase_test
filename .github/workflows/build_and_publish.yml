@@ -52,7 +52,7 @@ jobs:
   #         generate_release_notes: true
 
   release_firebase:
-    # needs: build
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Download Artifact
