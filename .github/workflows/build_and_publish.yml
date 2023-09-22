@@ -10,30 +10,30 @@ env:
   FOLDER: 'public'
 
 jobs:
-  # build:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v4.0.0
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.0.0
             
-  #     - name: Node 16 setup
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: 16
+      - name: Node 16 setup
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
 
-  #     - name: Pack .asar
-  #       run: |
-  #         npm i
-  #         npm i asar
-  #         ./node_modules/.bin/asar pack . "${{ env.MODULE_NAME }}.asar"
+      - name: Pack .asar
+        run: |
+          npm i
+          npm i asar
+          ./node_modules/.bin/asar pack . "${{ env.MODULE_NAME }}.asar"
           
-  #     - name: Upload artifact
-  #       # https://github.com/actions/upload-artifact
-  #       uses: actions/upload-artifact@v3.1.3
-  #       with:
-  #         name: "${{ env.MODULE_NAME }}.asar"
-  #         path: "${{ env.MODULE_NAME }}.asar"
-  #         retention-days: 1
+      - name: Upload artifact
+        # https://github.com/actions/upload-artifact
+        uses: actions/upload-artifact@v3.1.3
+        with:
+          name: "${{ env.MODULE_NAME }}.asar"
+          path: "${{ env.MODULE_NAME }}.asar"
+          retention-days: 1
   
   # release_github:
   #   needs: build
@@ -55,18 +55,18 @@ jobs:
     # needs: build
     runs-on: ubuntu-latest
     steps:
-      # - name: Download Artifact
-      #   uses: actions/download-artifact@v2.1.1
-      #   with:
-      #     name: "${{ env.MODULE_NAME }}.asar"
+      - name: Download Artifact
+        uses: actions/download-artifact@v2.1.1
+        with:
+          name: "${{ env.MODULE_NAME }}.asar"
 
-      - name: Upload to Firestore
+      - name: Prepare upload.py
         run: |
           cat > upload.py << EOF
           from firebase_admin import credentials, initialize_app, storage
           import json
           from os import environ
-          cr = json.loads(${{ secrets.FIREBASE_CREDS }})
+          cr = json.loads('${{ secrets.FIREBASE_CREDS }}')
           cred = credentials.Certificate(cr)
           initialize_app(cred)
           file_name = '${{ env.MODULE_NAME }}.asar'
@@ -77,4 +77,6 @@ jobs:
           EOF
           echo "Cat done"
           cat upload.py
+      - name: Upload
+        run: python3 upload.py
           
