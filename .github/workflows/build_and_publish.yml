@@ -54,10 +54,10 @@ jobs:
     # needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Download Artifact
-        uses: actions/download-artifact@v2.1.1
-        with:
-          name: "${{ env.MODULE_NAME }}.asar"
+      # - name: Download Artifact
+      #   uses: actions/download-artifact@v2.1.1
+      #   with:
+      #     name: "${{ env.MODULE_NAME }}.asar"
 
       - name: Upload to Firestore
         run: |
