@@ -60,7 +60,7 @@ jobs:
           name: "${{ env.MODULE_NAME }}.asar"
 
       - name: Upload to Firestore
-      - run: |
+        run: |
           cat > upload.py << EOF
           from firebase_admin import credentials, initialize_app, storage
           import json
