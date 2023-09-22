@@ -7,6 +7,7 @@ on:
         default: '0.0.0'
 env:
   MODULE_NAME: 'firebase_test'
+  FOLDER: 'public'
 
 jobs:
   # build:
@@ -65,12 +66,11 @@ jobs:
           from firebase_admin import credentials, initialize_app, storage
           import json
           from os import environ
-          cr = json.loads(environ['FIREBASE_CREDS'])
+          cr = json.loads(${{ secrets.FIREBASE_CREDS }})
           cred = credentials.Certificate(cr)
           initialize_app(cred)
-          file_name = environ['MODULE_NAME']
-          file_name = f'{file_name}.asar'
-          bucket = storage.bucket('public')
+          file_name = '${{ env.MODULE_NAME }}.asar'
+          bucket = storage.bucket(${{ env.FOLDER }})
           blob = bucket.blob(file_name)
           blob.upload_from_filename(file_name)
           print('Done', blob.public_url)
