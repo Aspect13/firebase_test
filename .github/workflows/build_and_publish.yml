@@ -21,7 +21,7 @@ jobs:
           node-version: 16
 
       - name: Pack .asar
-      - run: |
+        run: |
           npm i
           npm i asar
           ./node_modules/.bin/asar pack . $MODULE_NAME.asar
