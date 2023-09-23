@@ -88,14 +88,14 @@ jobs:
           from firebase_admin import credentials, initialize_app, storage
           _, FIREBASE_CREDS, MODULE_NAME, FOLDER_NAME, VERSION, *_ = sys.argv
           FILE_NAME = f'{MODULE_NAME}.asar'
-          BUCKET_NAME = f'{service_account["project_id"]}.appspot.com'
           print('FIREBASE_CREDS', FIREBASE_CREDS)
-          print('BUCKET_NAME', BUCKET_NAME)
           print('MODULE_NAME', MODULE_NAME)
           print('FILE_NAME', FILE_NAME)
           print('FOLDER_NAME', FOLDER_NAME)
           print('VERSION', VERSION)
           service_account = json.loads(FIREBASE_CREDS)
+          BUCKET_NAME = f'{service_account["project_id"]}.appspot.com'
+          print('BUCKET_NAME', BUCKET_NAME)
           cred = credentials.Certificate(service_account)
           initialize_app(cred)
           bucket = storage.bucket(BUCKET_NAME)
