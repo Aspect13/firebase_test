@@ -88,7 +88,7 @@ jobs:
           from firebase_admin import credentials, initialize_app, storage
           _, FIREBASE_CREDS, FILE_NAME, FOLDER_NAME, VERSION, *_ = sys.argv
           service_account = json.loads(FIREBASE_CREDS)
-          cred = credentials.Certificate(cr)
+          cred = credentials.Certificate(service_account)
           initialize_app(cred)
           bucket = storage.bucket(f'{service_account["project_id"]}.appspot.com')
           blob = bucket.blob(f'{FOLDER_NAME}/{VERSION}/{FILE_NAME}')
