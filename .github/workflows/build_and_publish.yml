@@ -35,7 +35,7 @@ jobs:
       - name: Pack .asar
         run: |
           npm i
-          npm i -g asar
+          npm i -g @electron/asar
           asar pack . "${{ steps.module_meta.outputs.MODULE_NAME }}_${{ steps.module_meta.outputs.MODULE_VERSION }}.asar"
           
       - name: Upload artifact
@@ -45,6 +45,7 @@ jobs:
           name: "${{ steps.module_meta.outputs.MODULE_NAME }}_${{ steps.module_meta.outputs.MODULE_VERSION }}.asar"
           path: "${{ steps.module_meta.outputs.MODULE_VERSION }}.asar"
           retention-days: 1
+          if-no-files-found: error
 
     outputs:
       MODULE_NAME: ${{ steps.module_meta.outputs.MODULE_NAME }}
