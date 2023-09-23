@@ -102,6 +102,8 @@ jobs:
         run: |
           cat > tst.py <<EOF
           import sys
+          from os import environ
+          print(environ)
           print(sys.argv)
           _, FIREBASE_CREDS, FILE_NAME, FOLDER_NAME, VERSION, *_ = sys.argv
           print('FIREBASE_CREDS', FIREBASE_CREDS)
