@@ -86,33 +86,25 @@ jobs:
           cat > upload.py << EOF
           import sys, json
           from firebase_admin import credentials, initialize_app, storage
-          _, FIREBASE_CREDS, FILE_NAME, FOLDER_NAME, VERSION, *_ = sys.argv
-          service_account = json.loads(FIREBASE_CREDS)
-          cred = credentials.Certificate(service_account)
-          initialize_app(cred)
-          bucket = storage.bucket(f'{service_account["project_id"]}.appspot.com')
-          blob = bucket.blob(f'{FOLDER_NAME}/{VERSION}/{FILE_NAME}')
-          blob.upload_from_filename(FILE_NAME)
-          print('Done', blob.public_url)
-          EOF
-          echo "Cat done"
-          cat upload.py
-
-      - name: Test argv
-        run: |
-          cat > tst.py <<EOF
-          import sys
-          from os import environ
-          print(environ)
-          print(sys.argv)
-          _, FIREBASE_CREDS, FILE_NAME, FOLDER_NAME, VERSION, *_ = sys.argv
+          _, FIREBASE_CREDS, MODULE_NAME, FOLDER_NAME, VERSION, *_ = sys.argv
+          FILE_NAME = f'{MODULE_NAME}'.asar
+          BUCKET_NAME = f'{service_account["project_id"]}.appspot.com'
           print('FIREBASE_CREDS', FIREBASE_CREDS)
+          print('BUCKET_NAME', BUCKET_NAME)
+          print('MODULE_NAME', MODULE_NAME)
           print('FILE_NAME', FILE_NAME)
           print('FOLDER_NAME', FOLDER_NAME)
           print('VERSION', VERSION)
+          service_account = json.loads(FIREBASE_CREDS)
+          cred = credentials.Certificate(service_account)
+          initialize_app(cred)
+          bucket = storage.bucket(BUCKET_NAME)
+          blob = bucket.blob(f'{FOLDER_NAME}/{MODULE_NAME}/{VERSION}/{FILE_NAME}')
+          blob.upload_from_filename(FILE_NAME)
+          print('Done', blob.public_url)
           EOF
-          python3 tst.py '${{ secrets.FIREBASE_CREDS }}' '${{ needs.build.outputs.MODULE_NAME }}.asar' '${{ needs.build.outputs.MODULE_SUBSCRIPTION }}' '${{ needs.build.outputs.MODULE_VERSION }}'
+          echo "upload.py ready"
 
       - name: Upload
-        run: python3 upload.py '${{ secrets.FIREBASE_CREDS }}' '${{ needs.build.outputs.MODULE_NAME }}.asar' '${{ needs.build.outputs.MODULE_SUBSCRIPTION }}' '${{ needs.build.outputs.MODULE_VERSION }}'
+        run: python3 upload.py '${{ secrets.FIREBASE_CREDS }}' '${{ needs.build.outputs.MODULE_NAME }}' '${{ needs.build.outputs.MODULE_SUBSCRIPTION }}' '${{ needs.build.outputs.MODULE_VERSION }}'
 
