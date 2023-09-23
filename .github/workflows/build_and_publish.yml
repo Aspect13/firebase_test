@@ -111,7 +111,7 @@ jobs:
           print('FOLDER_NAME', FOLDER_NAME)
           print('VERSION', VERSION)
           EOF
-          python3 tst.py ${{ secrets.FIREBASE_CREDS }} "${{ needs.build.outputs.MODULE_NAME }}.asar" ${{ needs.build.outputs.MODULE_SUBSCRIPTION }} ${{ needs.build.outputs.MODULE_VERSION }}
+          python3 tst.py '${{ secrets.FIREBASE_CREDS }}' '${{ needs.build.outputs.MODULE_NAME }}.asar' '${{ needs.build.outputs.MODULE_SUBSCRIPTION }}' '${{ needs.build.outputs.MODULE_VERSION }}'
 
       - name: Upload
         run: python3 upload.py '${{ secrets.FIREBASE_CREDS }}' '${{ needs.build.outputs.MODULE_NAME }}.asar' '${{ needs.build.outputs.MODULE_SUBSCRIPTION }}' '${{ needs.build.outputs.MODULE_VERSION }}'
