@@ -98,6 +98,19 @@ jobs:
           echo "Cat done"
           cat upload.py
 
+      - name: Test argv
+        run: |
+          cat > tst.py <<EOF
+          import sys
+          print(sys.argv)
+          _, FIREBASE_CREDS, FILE_NAME, FOLDER_NAME, VERSION, *_ = sys.argv
+          print('FIREBASE_CREDS', FIREBASE_CREDS)
+          print('FILE_NAME', FILE_NAME)
+          print('FOLDER_NAME', FOLDER_NAME)
+          print('VERSION', VERSION)
+          EOF
+          python3 tst.py ${{ secrets.FIREBASE_CREDS }} "${{ needs.build.outputs.MODULE_NAME }}.asar" ${{ needs.build.outputs.MODULE_SUBSCRIPTION }} ${{ needs.build.outputs.MODULE_VERSION }}
+
       - name: Upload
         run: python3 upload.py ${{ secrets.FIREBASE_CREDS }} "${{ needs.build.outputs.MODULE_NAME }}.asar" ${{ needs.build.outputs.MODULE_SUBSCRIPTION }} ${{ needs.build.outputs.MODULE_VERSION }}
-          
+
