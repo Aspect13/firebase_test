@@ -87,7 +87,7 @@ jobs:
           import sys, json
           from firebase_admin import credentials, initialize_app, storage
           _, FIREBASE_CREDS, MODULE_NAME, FOLDER_NAME, VERSION, *_ = sys.argv
-          FILE_NAME = f'{MODULE_NAME}'.asar
+          FILE_NAME = f'{MODULE_NAME}.asar'
           BUCKET_NAME = f'{service_account["project_id"]}.appspot.com'
           print('FIREBASE_CREDS', FIREBASE_CREDS)
           print('BUCKET_NAME', BUCKET_NAME)
