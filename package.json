@@ -20,9 +20,9 @@
     "update": "manual",
     "removable": true
   },
-  "min_bsky_version": null,
-  "min_app_version": null,
-  "min_qqq_packages": [],
+  "minBSkyVersion": null,
+  "minAppVersion": null,
+  "requiredPackages": [],
 
   "version": "1.5.0",
   "author": "aspect13",
