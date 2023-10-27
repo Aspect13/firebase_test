@@ -1,5 +1,7 @@
+const {version} = require('./package.json')
+
 console.warn('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
-console.warn('test module loaded', 'version: 1.0')
+console.warn('test module loaded', 'version: ', version)
 console.warn('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
 
 module.exports = {
