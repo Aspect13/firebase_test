@@ -39,7 +39,7 @@ jobs:
           export MODULE_SUBSCRIPTION=$(python3 -c "import json; print(json.load(open('package.json', 'r')).get('${{ env.MODULE_SUBSCRIPTIONS_KEY }}', ['${{ env.MODULE_DEFAULT_SUBSCRIPTION }}'])[0])")
           echo "MODULE_SUBSCRIPTION=$MODULE_SUBSCRIPTION" >> "$GITHUB_OUTPUT"
 
-          export PACKAGE_META='$(cat package.json)'
+          export PACKAGE_META=$(python3 -c "import json; print(json.dumps(json.load(open('package.json', 'r'))))")
           echo "PACKAGE_META=$PACKAGE_META" >> "$GITHUB_OUTPUT"
           
 
