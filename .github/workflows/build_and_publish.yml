@@ -126,6 +126,35 @@ jobs:
       - name: Prepare update_firestore.py
         run: |
           cat > update_firestore.py << EOF
+          import sys, json
+          from firebase_admin import credentials, initialize_app, firestore
+          
+          _, FIREBASE_CREDS, *_ = sys.argv
+          service_account = json.loads(FIREBASE_CREDS)
+          cred = credentials.Certificate(service_account)
+          initialize_app(cred)
+          db = firestore.client()
+          collection_name = 'modules3'
+          cache_collection_name = 'modules_cache'
+          data = json.load(open('package.json', 'r'))
+          document_id = f'{data["name"]}_{data["version"]}'
+          db.collection(collection_name).document(document_id).set(data)
+          print('Firestore data set')
+          
+          def delete_collection(coll_ref, batch_size: int = 15):
+              docs = coll_ref.list_documents(page_size=batch_size)
+              deleted = 0
+          
+              for doc in docs:
+                  print(f"Deleting doc {doc.id} => {doc.get().to_dict()}")
+                  doc.delete()
+                  deleted = deleted + 1
+          
+              if deleted >= batch_size:
+                  return delete_collection(coll_ref, batch_size)
+              
+          delete_collection(db.collection(cache_collection_name))
+          print(f'Collection {cache_collection_name} cleared')
           print('Done', 'update_firestore')
           EOF
           echo "update_firestore.py ready"
