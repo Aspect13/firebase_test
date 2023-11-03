@@ -38,6 +38,9 @@ jobs:
           
           export MODULE_SUBSCRIPTION=$(python3 -c "import json; print(json.load(open('package.json', 'r')).get('${{ env.MODULE_SUBSCRIPTIONS_KEY }}', ['${{ env.MODULE_DEFAULT_SUBSCRIPTION }}'])[0])")
           echo "MODULE_SUBSCRIPTION=$MODULE_SUBSCRIPTION" >> "$GITHUB_OUTPUT"
+
+          export PACKAGE_META=$(cat package.json)
+          echo "PACKAGE_META=$PACKAGE_META" >> "$GITHUB_OUTPUT"
           
 
       - name: Node 16 setup
@@ -65,6 +68,7 @@ jobs:
       MODULE_VERSION: ${{ steps.module_meta.outputs.MODULE_VERSION }}
       MODULE_SUBSCRIPTION: ${{ steps.module_meta.outputs.MODULE_SUBSCRIPTION }}
       ARTIFACT_NAME: "${{ steps.module_meta.outputs.MODULE_NAME }}_${{ steps.module_meta.outputs.MODULE_VERSION }}.asar"
+      PACKAGE_META: ${{ steps.module_meta.outputs.PACKAGE_META }}
 
 
   release_github:
@@ -129,14 +133,14 @@ jobs:
           import sys, json
           from firebase_admin import credentials, initialize_app, firestore
           
-          _, FIREBASE_CREDS, *_ = sys.argv
+          _, FIREBASE_CREDS, PACKAGE_META, *_ = sys.argv
           service_account = json.loads(FIREBASE_CREDS)
+          collection_name = 'modules3'
+          cache_collection_name = 'modules_cache'
+          data = json.loads(PACKAGE_META)
           cred = credentials.Certificate(service_account)
           initialize_app(cred)
           db = firestore.client()
-          collection_name = 'modules3'
-          cache_collection_name = 'modules_cache'
-          data = json.load(open('package.json', 'r'))
           document_id = f'{data["name"]}_{data["version"]}'
           db.collection(collection_name).document(document_id).set(data)
           print('Firestore data set')
@@ -162,4 +166,4 @@ jobs:
       - name: Upload
         run: python3 upload.py '${{ secrets.FIREBASE_CREDS }}' '${{ needs.build.outputs.MODULE_NAME }}' '${{ needs.build.outputs.MODULE_SUBSCRIPTION }}' '${{ needs.build.outputs.MODULE_VERSION }}'
       - name: Update firestore
-        run: python3 update_firestore.py '${{ secrets.FIREBASE_CREDS }}'
+        run: python3 update_firestore.py '${{ secrets.FIREBASE_CREDS }}' '${{ needs.build.outputs.PACKAGE_META }}'
