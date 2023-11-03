@@ -38,11 +38,7 @@ jobs:
           
           export MODULE_SUBSCRIPTION=$(python3 -c "import json; print(json.load(open('package.json', 'r')).get('${{ env.MODULE_SUBSCRIPTIONS_KEY }}', ['${{ env.MODULE_DEFAULT_SUBSCRIPTION }}'])[0])")
           echo "MODULE_SUBSCRIPTION=$MODULE_SUBSCRIPTION" >> "$GITHUB_OUTPUT"
-
-          export PACKAGE_META=$(python3 -c "import json; print(json.dumps(json.load(open('package.json', 'r'))))")
-          echo "PACKAGE_META=$PACKAGE_META" >> "$GITHUB_OUTPUT"
           
-
       - name: Node 16 setup
         uses: actions/setup-node@v3
         with:
@@ -60,6 +56,15 @@ jobs:
         with:
           name: "${{ steps.module_meta.outputs.MODULE_NAME }}_${{ steps.module_meta.outputs.MODULE_VERSION }}.asar"
           path: "${{ steps.module_meta.outputs.MODULE_NAME }}.asar"
+          retention-days: 1
+          if-no-files-found: error
+        
+      - name: Upload package.json
+        # https://github.com/actions/upload-artifact
+        uses: actions/upload-artifact@v3.1.3
+        with:
+          name: "package.json"
+          path: "package.json"
           retention-days: 1
           if-no-files-found: error
 
@@ -126,6 +131,11 @@ jobs:
           print('Done', blob.public_url)
           EOF
           echo "upload.py ready"
+
+      - name: Download package.json
+        uses: actions/download-artifact@v3.0.2
+        with:
+          name: "package.json"
           
       - name: Prepare update_firestore.py
         run: |
@@ -133,11 +143,11 @@ jobs:
           import sys, json
           from firebase_admin import credentials, initialize_app, firestore
           
-          _, FIREBASE_CREDS, PACKAGE_META, *_ = sys.argv
+          _, FIREBASE_CREDS, *_ = sys.argv
           service_account = json.loads(FIREBASE_CREDS)
           collection_name = 'modules3'
           cache_collection_name = 'modules_cache'
-          data = json.loads(PACKAGE_META)
+          data = json.load(open('package.json', 'r'))
           cred = credentials.Certificate(service_account)
           initialize_app(cred)
           db = firestore.client()
