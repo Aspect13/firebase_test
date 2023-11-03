@@ -162,4 +162,4 @@ jobs:
       - name: Upload
         run: python3 upload.py '${{ secrets.FIREBASE_CREDS }}' '${{ needs.build.outputs.MODULE_NAME }}' '${{ needs.build.outputs.MODULE_SUBSCRIPTION }}' '${{ needs.build.outputs.MODULE_VERSION }}'
       - name: Update firestore
-        run: python3 update_firestore.py
+        run: python3 update_firestore.py '${{ secrets.FIREBASE_CREDS }}'
