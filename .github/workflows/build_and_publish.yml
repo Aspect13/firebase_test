@@ -143,7 +143,7 @@ jobs:
           import sys, json
           from firebase_admin import credentials, initialize_app, firestore
           
-          _, FIREBASE_CREDS, *_ = sys.argv
+          _, FIREBASE_CREDS, MODULE_NAME, *_ = sys.argv
           service_account = json.loads(FIREBASE_CREDS)
           collection_name = 'modules3'
           cache_collection_name = 'modules_cache'
@@ -152,7 +152,7 @@ jobs:
           cred = credentials.Certificate(service_account)
           initialize_app(cred)
           db = firestore.client()
-          document_id = f'{data["name"]}_{data["version"]}'
+          document_id = f'{MODULE_NAME}_{data["version"]}'
           print('doc id', document_id)
           db.collection(collection_name).document(document_id).set(data)
           print('Firestore data set')
