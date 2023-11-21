@@ -147,8 +147,8 @@ jobs:
           
           _, FIREBASE_CREDS, MODULE_NAME, *_ = sys.argv
           service_account = json.loads(FIREBASE_CREDS)
-          collection_name = '${{ FIREBASE_MODULES_COLLECTION }}'
-          cache_collection_name = '${{ FIREBASE_MODULES_CACHE_COLLECTION }}'
+          collection_name = '${{ env.FIREBASE_MODULES_COLLECTION }}'
+          cache_collection_name = '${{ env.FIREBASE_MODULES_CACHE_COLLECTION }}'
           package_data = json.load(open('package.json', 'r'))
           print('package_data', package_data)
           data = dict()
