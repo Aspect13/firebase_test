@@ -151,8 +151,8 @@ jobs:
           cache_collection_name = '${{ env.FIREBASE_MODULES_CACHE_COLLECTION }}'
           package_data = json.load(open('package.json', 'r'))
           print('package_data', package_data)
-          data = dict()
-          for i in ['name', 'main', 'group', 'subscriptions', 'moduleMeta', 'minBSkyVersion', 'minAppVersion', 'requiredPackages', 'version']:
+          data = {'name': MODULE_NAME}
+          for i in ['main', 'group', 'subscriptions', 'moduleMeta', 'minBSkyVersion', 'minAppVersion', 'requiredPackages', 'version']:
             data[i] = package_data.get(i)
           cred = credentials.Certificate(service_account)
           initialize_app(cred)
