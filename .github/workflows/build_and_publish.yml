@@ -19,6 +19,8 @@ env:
   MODULE_VERSION_KEY: 'version'
   MODULE_SUBSCRIPTIONS_KEY: 'subscriptions'
   MODULE_DEFAULT_SUBSCRIPTION: 'public'
+  FIREBASE_MODULES_COLLECTION: 'modules'
+  FIREBASE_MODULES_CACHE_COLLECTION: 'modules_cache'
 
 jobs:
   build:
@@ -145,10 +147,13 @@ jobs:
           
           _, FIREBASE_CREDS, MODULE_NAME, *_ = sys.argv
           service_account = json.loads(FIREBASE_CREDS)
-          collection_name = 'modules3'
-          cache_collection_name = 'modules_cache'
-          data = json.load(open('package.json', 'r'))
-          print('data', data)
+          collection_name = '${{ FIREBASE_MODULES_COLLECTION }}'
+          cache_collection_name = '${{ FIREBASE_MODULES_CACHE_COLLECTION }}'
+          package_data = json.load(open('package.json', 'r'))
+          print('package_data', package_data)
+          data = dict()
+          for i in ['name', 'main', 'group', 'subscriptions', 'moduleMeta', 'minBSkyVersion', 'minAppVersion', 'requiredPackages', 'version']:
+            data[i] = package_data.get(i)
           cred = credentials.Certificate(service_account)
           initialize_app(cred)
           db = firestore.client()
