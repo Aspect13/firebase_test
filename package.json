@@ -6,7 +6,6 @@
   "moduleMeta": {
     "path": "{{locals}}/modules/firebase_test.asar",
     "storage": "firebase",
-    "update": "auto",
     "artifactType": "asar",
     "extra": {
       "sourceType": "release",
