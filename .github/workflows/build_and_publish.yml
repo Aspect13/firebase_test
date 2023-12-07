@@ -44,7 +44,7 @@ jobs:
           parsed = list(map(int, version.split('.')))
           parsed[-1] += 1
           package_data['${{ env.MODULE_VERSION_KEY }}'] = '.'.join(map(str, parsed))
-          json.dump(package_data, open('package.json', 'w'))
+          json.dump(package_data, open('package.json', 'w'), indent=2)
           print(package_data['${{ env.MODULE_VERSION_KEY }}'])
           EOF
           python3 update_version.py
