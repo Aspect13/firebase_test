@@ -1,1 +1,41 @@
-{"name": "@BlueskyStatistics/dialogs/something/firebase_test", "main": "index.js", "group": "core", "subscriptions": ["public"], "moduleMeta": {"path": "{{locals}}/modules/firebase_test.asar", "storage": "firebase", "artifactType": "asar", "extra": {"sourceType": "release", "remote": "Aspect13/firebase_test"}, "update": "manual", "removable": true}, "minBSkyVersion": null, "minAppVersion": null, "requiredPackages": [], "version": "1.5.4", "productName": "firebase_test", "description": "firebase_test", "keywords": [], "author": "aspect13", "scripts": {}, "dependencies": {}, "devDependencies": {"asar": "^3.2.0"}, "repository": {}, "license": "AGLPL", "bugs": {"url": "https://github.com/BlueSkyStatistics/BlueSkyJS/issues"}, "publishConfig": {"registry": "https://npm.pkg.github.com"}, "homepage": "https://www.blueskystatistics.com"}
+{
+  "name": "@BlueskyStatistics/dialogs/something/firebase_test",
+  "main": "index.js",
+  "group": "core",
+  "subscriptions": [
+    "public"
+  ],
+  "moduleMeta": {
+    "path": "{{locals}}/modules/firebase_test.asar",
+    "storage": "firebase",
+    "artifactType": "asar",
+    "extra": {
+      "sourceType": "release",
+      "remote": "Aspect13/firebase_test"
+    },
+    "update": "manual",
+    "removable": true
+  },
+  "minBSkyVersion": null,
+  "minAppVersion": null,
+  "requiredPackages": [],
+  "version": "1.5.5",
+  "productName": "firebase_test",
+  "description": "firebase_test",
+  "keywords": [],
+  "author": "aspect13",
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {
+    "asar": "^3.2.0"
+  },
+  "repository": {},
+  "license": "AGLPL",
+  "bugs": {
+    "url": "https://github.com/BlueSkyStatistics/BlueSkyJS/issues"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "homepage": "https://www.blueskystatistics.com"
+}
