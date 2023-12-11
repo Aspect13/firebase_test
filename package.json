@@ -6,7 +6,7 @@
     "PRO"
   ],
   "moduleMeta": {
-    "path": "{{locals}}/modules/firebase_test.asar",
+    "path": "{{locals}}/firebase_test.asar",
     "storage": "firebase",
     "artifactType": "asar",
     "extra": {
