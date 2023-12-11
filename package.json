@@ -3,7 +3,7 @@
   "main": "index.js",
   "group": "core",
   "subscriptions": [
-    "public"
+    "PRO"
   ],
   "moduleMeta": {
     "path": "{{locals}}/modules/firebase_test.asar",
