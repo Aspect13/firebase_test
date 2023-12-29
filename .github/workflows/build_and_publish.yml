@@ -120,7 +120,6 @@ jobs:
 
       - name: Debug Outcome
         run: |
-          echo "failure: ${{ failure() }}"
           echo "steps.github_push.outcome: ${{ steps.github_push.outcome }}"
           echo "${{ failure() && steps.github_push.outcome == 'failure' }}"
           
