@@ -123,6 +123,7 @@ jobs:
         uses: peter-evans/create-pull-request@v5.0.2
         with:
           title: "Version increment"
+          body: "New version: ${{ steps.module_meta.outputs.MODULE_VERSION }}"
           commit-message: "Incremented version"
           branch: "version_increment/${{ steps.module_meta.outputs.MODULE_VERSION }}"
           add-paths: "./package.json"
