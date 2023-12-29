@@ -121,7 +121,7 @@ jobs:
       - name: Debug Outcome
         run: |
           echo "steps.github_push.outcome: ${{ steps.github_push.outcome }}"
-          echo "${{ failure() && steps.github_push.outcome == 'failure' }}"
+          echo "${{ steps.github_push.outcome == 'failure' }}"
           
         
       - name: GitHub pull request
