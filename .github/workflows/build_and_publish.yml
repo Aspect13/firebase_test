@@ -125,7 +125,7 @@ jobs:
           title: "Version increment"
           commit-message: "Incremented version"
           branch: "version_increment/${{ steps.module_meta.outputs.MODULE_VERSION }}"
-            
+          add-paths: "./package.json"
 
       - name: debug exit
         run: exit 1
