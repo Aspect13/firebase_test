@@ -118,8 +118,15 @@ jobs:
         continue-on-error: true
         uses: ad-m/github-push-action@v0.8.0
 
+      - name: Debug Outcome
+        run: |
+          echo "failure: ${{ failure() }}"
+          echo "steps.github_push.outcome: ${{ steps.github_push.outcome }}"
+          echo "${{ failure() && steps.github_push.outcome == 'failure' }}"
+          
+        
       - name: GitHub pull request
-        if: ${{ inputs.commit_version }} && ( failure() && steps.github_push.outcome == 'failure' )
+        if: ${{ inputs.commit_version }} && failure() && steps.github_push.outcome == 'failure'
         # https://github.com/marketplace/actions/create-pull-request
         uses: peter-evans/create-pull-request@v5.0.2
         with:
