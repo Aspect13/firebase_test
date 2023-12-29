@@ -119,7 +119,7 @@ jobs:
         uses: ad-m/github-push-action@v0.8.0
 
       - name: GitHub pull request
-        if: ${{ inputs.commit_version }} && failure() && steps.github_push.outcome == 'failure'
+        if: ${{ inputs.commit_version }} && ( failure() && steps.github_push.outcome == 'failure' )
         uses: peter-evans/create-pull-request@v5.0.2
         with:
           title: "Version increment"
